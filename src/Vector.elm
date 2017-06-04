@@ -1,4 +1,4 @@
-module Vector exposing (singleton, head, tail, empty, prepend, length, map, foldl, foldr, Vector, OneMoreThan, Empty)
+module Vector exposing (singleton, head, tail, empty, prepend, length, reverse, map, foldl, foldr, Vector, OneMoreThan, Empty)
 
 
 type Vector length a
