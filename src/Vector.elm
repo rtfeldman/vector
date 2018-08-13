@@ -10,7 +10,7 @@ type Empty
 
 
 type OneMoreThan length
-    = OneMoreThan OneMoreThan
+    = OneMoreThan (OneMoreThan length)
 
 
 singleton : a -> Vector (OneMoreThan Empty) a
