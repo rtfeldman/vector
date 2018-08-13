@@ -2,75 +2,75 @@ module Vector exposing (Empty, OneMoreThan, Vector, empty, foldl, foldr, head, l
 
 
 type Vector length a
-    = Vector length (List a)
+    = Vector (List a)
 
 
 type Empty
-    = Empty
+    = Empty Empty
 
 
 type OneMoreThan length
-    = OneMoreThan length
+    = OneMoreThan OneMoreThan
 
 
 singleton : a -> Vector (OneMoreThan Empty) a
 singleton a =
-    Vector (OneMoreThan Empty) [ a ]
+    Vector [ a ]
 
 
 empty : Vector Empty a
 empty =
-    Vector Empty []
+    Vector []
 
 
 prepend : a -> Vector length a -> Vector (OneMoreThan length) a
-prepend elem (Vector len list) =
-    Vector (OneMoreThan len) (elem :: list)
+prepend elem (Vector list) =
+    Vector (elem :: list)
 
 
 head : Vector (OneMoreThan length) a -> a
-head (Vector len list) =
+head (Vector list) =
     case list of
         elem :: _ ->
             elem
 
         [] ->
             -- Types enforce that this code is unreachable
-            head (Vector len list)
+            head (Vector list)
 
 
 tail : Vector (OneMoreThan length) a -> Vector length a
-tail (Vector (OneMoreThan len) list) =
+tail (Vector list) =
     case list of
         _ :: rest ->
-            Vector len rest
+            Vector rest
 
         [] ->
             -- Types enforce that this code is unreachable
-            tail (Vector (OneMoreThan len) list)
+            tail (Vector list)
 
 
 length : Vector length a -> Int
-length (Vector _ list) =
+length (Vector list) =
     List.length list
 
 
 map : (a -> b) -> Vector length a -> Vector length b
-map transform (Vector len list) =
+map transform (Vector list) =
     List.map transform list
-        |> Vector len
+        |> Vector
 
 
 reverse : Vector length a -> Vector length a
-reverse (Vector len list) =
-    Vector len (List.reverse list)
+reverse (Vector list) =
+    Vector (List.reverse list)
 
 
 foldl : (a -> b -> b) -> b -> Vector length a -> b
-foldl step initial (Vector _ list) =
+foldl step initial (Vector list) =
     List.foldl step initial list
 
 
 foldr : (a -> b -> b) -> b -> Vector length a -> b
-foldr step initial (Vector _ list) =
+foldr step initial (Vector list) =
     List.foldr step initial list
